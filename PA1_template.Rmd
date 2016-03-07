@@ -15,13 +15,13 @@ https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip
 
 and save it into your working directory. Then, read the dataset using the following code:
 
-```{r}
+```{r, echo=TRUE}
 act <- read.csv("activity.csv")
 ```
 
 ## What is mean total number of steps taken per day?
 
-```{r}
+```{r, echo=TRUE}
 act1<-act[!is.na(act$steps),]
 act1<-aggregate(steps ~ date, data=act1 ,sum)
 hist(act1$steps,main = "Histogram of Steps vs Date" ,xlab= "Number of Steps" ,col = "pink")
@@ -30,7 +30,7 @@ abline(v = median(act1$steps), col="blue")
 ```
 
 To calculate the mean and median:
-```{r}
+```{r, echo=TRUE}
 mean(act1$steps)
 median(act1$steps)
 ```
@@ -40,7 +40,7 @@ It follows that mean = 10766.19 and median = 10765.
 ## What is the average daily activity pattern?
 
 We can plot the graph of the dayily activity pattern using the following code:
-```{r}
+```{r, echo=TRUE}
 act1<-act[!is.na(act$steps),]
 act2<- aggregate(steps ~ interval, data = act1, mean)
 with(act2, plot(interval, steps, type="l", xlab = "Intervals", ylab = "Average Number of Steps"))
@@ -48,19 +48,19 @@ with(act2, plot(interval, steps, type="l", xlab = "Intervals", ylab = "Average N
 
 The maximum average step across intervals is 206.1698:
 
-```{r}
+```{r, echo=TRUE}
 max(act2$steps)
 ```
 And in happens in the interval=835:
 
-```{r}
+```{r, echo=TRUE}
 act2[act2$steps>206,]
 ```
 
 ## Imputing missing values
 Total number of missing values:
 
-```{r}
+```{r, echo=TRUE}
 act1<-act[!is.na(act$steps),]
 NumOfMissValues<- nrow(act)-nrow(act1)
 NumOfMissValues
@@ -68,7 +68,7 @@ NumOfMissValues
 
 I will use the median of steps per day (as was calculated above) to fill the NAs.
 
-```{r}
+```{r, echo=TRUE}
 act3<-tapply(act$steps, act$date, sum)
 act3<-as.data.frame(act3)
 act3[is.na(act3)]<- 10765
@@ -78,7 +78,7 @@ head(act3)
 
 The new histogram will be:
 
-```{r}
+```{r, echo=TRUE}
 hist(act3$steps, col = "pink")
 abline(v = mean(act3$steps), col="red")
 abline(v = median(act3$steps), col="blue")
@@ -86,24 +86,24 @@ abline(v = median(act3$steps), col="blue")
 
 Although the total amount of days with 10000-15000 steps is increased (because we just replaced all the NA values with 10765 which falls in this interval), the new median and mean are almost the same as before:
 
-```{r}
+```{r, echo=TRUE}
 mean(act3$steps)
 ```
 
-```{r}
+```{r, echo=TRUE}
 median(act3$steps)
 ```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-```{r}
+```{r, echo=TRUE}
 act4<-cbind(date = row.names(act3), act3)
 act4<-cbind(act4, weekday=weekdays(as.Date(act4$date)))
 head(act4)
 ```
 
-```{r}
+```{r, echo=TRUE}
 act4$weekday<-as.character(act4$weekday)
 act4$weekday[act4$weekday %in% c("Saturday" , "Sunday")]<- "weekend"
 act4$weekday[!(act4$weekday %in% c("weekend"))]<- "weekday"
@@ -111,7 +111,7 @@ act4$weekday[!(act4$weekday %in% c("weekend"))]<- "weekday"
 head(act4, n = 14)
 ```
 
-```{r}
+```{r, echo=TRUE}
 act5<-cbind(act1, weekday=weekdays(as.Date(act1$date)))
 act5$weekday<-as.character(act5$weekday)
 act5$weekday[act5$weekday %in% c("Saturday" , "Sunday")]<- "weekend"
