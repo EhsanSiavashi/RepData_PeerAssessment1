@@ -206,8 +206,8 @@ act5<- aggregate(steps ~ interval + weekday, data = act5 , mean)
 par(mfrow= c(2,1))
 act5_weekday <- subset(act5, act5$weekday == "weekday")
 act5_weekend <- subset(act5, act5$weekday == "weekend")
-plot(act5_weekday$interval, act5_weekday$steps, type = "l")
-plot(act5_weekend$interval, act5_weekend$steps, type = "l")
+plot(act5_weekday$interval, act5_weekday$steps, type = "l" , main = "Weekdays", xlab = "Intervals", ylab = "Steps")
+plot(act5_weekend$interval, act5_weekend$steps, type = "l", main = "Weekends", xlab = "Intervals", ylab = "Steps")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-14-1.png) 
